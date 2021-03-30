@@ -15,10 +15,18 @@ Including another URLconf
 """
 from django.contrib import admin
 from django.urls import path, include
+from rest_framework.routers import DefaultRouter
+
+router = DefaultRouter()
+
+##Register messaging viewsets here
+#router.register('messages', MessagesViewSet)
+#router.register('feedback', FeedbackViewSet)
 
 urlpatterns = [
     path('admin/', admin.site.urls),
     path('o/', include('oauth2_provider.urls', namespace='oauth2_provider')),
     path('authentication/', include('users.urls')),
+    path('v1/', include(router.urls)),
 
 ]
