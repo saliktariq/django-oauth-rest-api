@@ -15,7 +15,19 @@ class FeedbackSerializer(serializers.ModelSerializer):
 
 
 class MessagesSerializer(serializers.ModelSerializer):
+
+    def check_live_status(self):
+        if (self.expiration_timestamp > timezone.now):
+            return True
+        else:
+            return False
+
+   # is_live = serializers.SerializerMethodField(method_name=check_live_status)
    # feedbacks = FeedbackSerializer(source='feedback_set', many=True)
+
     class Meta:
         model = Messages
-        fields = ['post_identifier', 'topic', 'title', 'message', 'creation_timestamp', 'expiration_timestamp', 'is_live', 'username']#, 'feedbacks']
+        fields = '__all__'
+        #fields = ['post_identifier', 'topic', 'title', 'message', 'creation_timestamp', 'expiration_timestamp', 'username']#'is_live', ]#, 
+
+   

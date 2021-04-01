@@ -36,7 +36,6 @@ class Messages(models.Model):
     message = models.TextField()
     creation_timestamp = models.DateTimeField(default=timezone.now)
     expiration_timestamp = models.DateTimeField()
-    is_live = models.BooleanField(default=True)
     username = models.CharField(max_length=100)
 
 

@@ -23,7 +23,7 @@ class MessagesViewset(viewsets.ModelViewSet):
     #Learnt by following https://www.youtube.com/watch?v=4dPVywV-X84&list=PLmDLs7JbXWNjr5vyJhfGu69sowgIUl8z5&index=14
     def create(self, request, *args, **kwargs):
         message_data = request.data
-        if(message_data['expiration_timestamp'] is not None):
+        if('expiration_timestamp' in message_data):
             new_message = Messages.objects.create(title=message_data['title'], message= message_data['message'],  expiration_timestamp= message_data['expiration_timestamp'], username= request.user.username)
         else:
             new_message = Messages.objects.create(title=message_data['title'], message= message_data['message'], username= request.user.username)
