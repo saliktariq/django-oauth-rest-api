@@ -65,7 +65,7 @@ def registerNewUser(username, password, firstname, lastname):
 ####################################################################
 
 import requests, json
-newUserToken = registerNewUser('saliktariq7','salik1','Salik','Tariq')
+newUserToken = registerNewUser('saliktariq','salik1','Salik','Tariq')
 access_token = newUserToken['access_token']
 messageURL = 'http://127.0.0.1:8000/v1/feedback/'
 headers = {'Authorization': 'Bearer '+str(access_token)}
@@ -73,7 +73,7 @@ dataset = {
         "post_identifier": 3,
         "is_liked": True,
         "is_disliked": False,
-        "comment": "This is my fourth feedback"
+        "comment": "Blowing my own trumpet"
        
     }
 

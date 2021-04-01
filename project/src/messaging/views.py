@@ -3,6 +3,8 @@ from .serializers import MessagesSerializer, FeedbackSerializer, TopicsSerialize
 from .models import Messages, Feedback, Topics
 from django.contrib.auth.models import User
 from rest_framework.response import Response
+from datetime import timedelta
+from django.utils import timezone
 
 class MessagesViewset(viewsets.ModelViewSet):
     serializer_class = MessagesSerializer
@@ -21,7 +23,10 @@ class MessagesViewset(viewsets.ModelViewSet):
     #Learnt by following https://www.youtube.com/watch?v=4dPVywV-X84&list=PLmDLs7JbXWNjr5vyJhfGu69sowgIUl8z5&index=14
     def create(self, request, *args, **kwargs):
         message_data = request.data
-        new_message = Messages.objects.create(title=message_data['title'], message= message_data['message'], username= request.user.username)
+        if(message_data['expiration_timestamp'] is not None):
+            new_message = Messages.objects.create(title=message_data['title'], message= message_data['message'],  expiration_timestamp= message_data['expiration_timestamp'], username= request.user.username)
+        else:
+            new_message = Messages.objects.create(title=message_data['title'], message= message_data['message'], username= request.user.username)
         new_message.save()
 
         for topic in message_data['topic']:
@@ -74,6 +79,23 @@ class FeedbackViewset(viewsets.ModelViewSet):
     def create(self, request, *args, **kwargs):
         feedback_data = request.data
         message_object = Messages.objects.filter(post_identifier=feedback_data['post_identifier']).first()
+
+
+        if (request.user.username == message_object.username):
+            return Response(
+                {
+                    "Error: ": "Can not give feedback on own post"
+                }
+            )
+
+        if(timezone.now > message_object.expiration_timestamp):
+            return Response(
+                {
+                    "Error: ": "Post is expired now, can not add comments."
+                }
+            )
+
+        
 
         #check who is posting the message
         #check if user is not liking and disliking at the same time
