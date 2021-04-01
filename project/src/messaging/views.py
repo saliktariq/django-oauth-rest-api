@@ -2,6 +2,7 @@ from rest_framework import viewsets
 from .serializers import MessagesSerializer, FeedbackSerializer, TopicsSerializer
 from .models import Messages, Feedback, Topics
 from django.contrib.auth.models import User
+from rest_framework.response import Response
 
 class MessagesViewset(viewsets.ModelViewSet):
     serializer_class = MessagesSerializer
@@ -20,10 +21,11 @@ class MessagesViewset(viewsets.ModelViewSet):
     #Learnt by following https://www.youtube.com/watch?v=4dPVywV-X84&list=PLmDLs7JbXWNjr5vyJhfGu69sowgIUl8z5&index=14
     def create(self, request, *args, **kwargs):
         message_data = request.data
-        new_message = Messages.objects.create(title=message_data['title'], message= message_data['message'])
+        new_message = Messages.objects.create(title=message_data['title'], message= message_data['message'], username= request.user.username)
         new_message.save()
 
         for topic in message_data['topic']:
+
             topic_object = Topics.objects.get(topic_name = topic['topic_name'])
             new_message.topic.add(topic_object)
 
@@ -71,12 +73,14 @@ class FeedbackViewset(viewsets.ModelViewSet):
 
     def create(self, request, *args, **kwargs):
         feedback_data = request.data
-        message_object = Messages.objects.filter(post_identifier=feedback_data['post_identifier'])
+        message_object = Messages.objects.filter(post_identifier=feedback_data['post_identifier']).first()
+
         #check who is posting the message
         #check if user is not liking and disliking at the same time
-        new_feedback = Feedback.objects.create(is_liked= feedback_data['is_liked'],is_disliked= feedback_data['is_disliked'], comment= feedback_data['comment'])
-        message_object.feedbacks.add(new_feedback)
-        serializer = MessagesSerializer(new_feedback)
+        new_feedback = Feedback.objects.create(is_liked= feedback_data['is_liked'],is_disliked= feedback_data['is_disliked'], comment= feedback_data['comment'], username= request.user.username, message=message_object)
+        new_feedback.save()
+       # message_object.feedbacks.add(new_feedback)
+        serializer = FeedbackSerializer(new_feedback)
         return Response(serializer.data)
 
 

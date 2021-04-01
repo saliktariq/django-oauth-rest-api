@@ -16,14 +16,16 @@ Including another URLconf
 from django.contrib import admin
 from django.urls import path, include
 from rest_framework.routers import DefaultRouter
-from messaging.views import MessagesViewset
-from messaging.models import Messages
+from messaging.views import MessagesViewset, FeedbackViewset, TopicsViewset
+from messaging.models import Messages, Feedback, Topics
 
 router = DefaultRouter()
 
 ##Registering messaging viewsets here
-router.register('messages', MessagesViewset, basename = 'Messages')
-#router.register('feedback', FeedbackViewSet)
+router.register('message', MessagesViewset, basename = 'Messages')
+router.register('feedback', FeedbackViewset, basename = 'Feedback')
+router.register('topic', TopicsViewset, basename = 'Topics')
+
 
 urlpatterns = [
     path('admin/', admin.site.urls),

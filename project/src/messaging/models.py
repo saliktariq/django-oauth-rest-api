@@ -14,25 +14,21 @@ class Messages(models.Model):
         expiration_time = self.creation_timestamp + timedelta(seconds=EXPIRATION_DURATION)
         return expiration_time
 
-    def post_live_status(self):
-        if (self.expiration_timestamp.timestamp() - timezone.now.timestamp()) > 0:
-            return True
-        else:
-            return False
 
-    def post_live_time_remaining(self):
-        if (self.expiration_timestamp > timezone.now):
-            return (self.expiration_timestamp - timezone.now).total_seconds()
-        else:
-            return 0
 
-    def get_username(request):
-        current_user = request.user
-        return current_user.username
+    # def post_live_time_remaining(self):
+    #     if (self.expiration_timestamp > timezone.now):
+    #         return (self.expiration_timestamp - timezone.now).total_seconds()
+    #     else:
+    #         return 0
 
-    def get_user_id(request):
-        current_user = request.user
-        return current_user.id
+    # def get_username(request):
+    #     current_user = request.user
+    #     return current_user.username
+
+    # def get_user_id(request):
+    #     current_user = request.user
+    #     return current_user.id
 
     post_identifier = models.AutoField(primary_key=True)
     topic = models.ManyToManyField('Topics')
@@ -40,24 +36,35 @@ class Messages(models.Model):
     message = models.TextField()
     creation_timestamp = models.DateTimeField(default=timezone.now)
     expiration_timestamp = models.DateTimeField()
-    is_live = models.BooleanField()
+    is_live = models.BooleanField(default=True)
     username = models.CharField(max_length=100)
-    user_id = models.IntegerField()
+
 
     def save(self, *args, **kwargs):
-        if not self.is_live:
-            self.is_live = self.post_live_status()
+        # if not self.is_live:
+        #     self.is_live = self.post_live_status()
 
         if not self.expiration_timestamp:
             self.expiration_timestamp = self.expiration_time_calculation()
 
-        if not self.username:
-            self.username = self.get_username()
+        # if not self.username:
+        #     self.username = self.get_username()
 
-        if not self.user_id:
-            self.user_id = self.get_user_id()
+        # if not self.user_id:
+        #     self.user_id = self.get_user_id()
 
         super(Messages, self).save(*args, **kwargs)
+
+    # def post_live_status(self):
+    #     if (self.expiration_timestamp > timezone.now):
+    #         return True
+    #     else:
+    #         return False
+
+    # def save(self, *args, **kwargs):
+    #     if not self.is_live:
+    #         self.is_live = self.post_live_status()
+    #     super(Messages, self).save(*args, **kwargs)
 
     def __str__(self):
         return self.title
@@ -65,7 +72,7 @@ class Messages(models.Model):
 
 class Topics(models.Model):
     TOPICS = [('P', 'Politics'), ('H', 'Health'), ('S', 'Sports'), ('T', 'Tech')]
-    topic_name = models.CharField(max_length=2, choices=TOPICS)
+    topic_name = models.CharField(max_length=2, unique=True, choices=TOPICS)
 
     def __str__(self):
         return self.topic_name
@@ -73,29 +80,28 @@ class Topics(models.Model):
 
 class Feedback(models.Model):
 
-    def get_username(request):
-        current_user = request.user
-        return current_user.username
+    # def get_username(request):
+    #     current_user = request.user
+    #     return current_user.username
 
-    def get_user_id(request):
-        current_user = request.user
-        return current_user.id
+    # def get_user_id(request):
+    #     current_user = request.user
+        # return current_user.id
 
     is_liked = models.BooleanField(default=False)
     is_disliked = models.BooleanField(default=False)
     comment = models.TextField(blank=True)
     username = models.CharField(max_length=100)
-    user_id = models.IntegerField()
-    message = models.ForeignKey(Messages, on_delete=models.CASCADE, blank=True)
+    message = models.ForeignKey(Messages, on_delete=models.CASCADE)
 
-    def save(self, *args, **kwargs):
-        if not self.username:
-            self.username = self.get_username()
+    # def save(self, *args, **kwargs):
+    #     if not self.username:
+    #         self.username = self.get_username()
 
-        if not self.user_id:
-            self.user_id = self.get_user_id()
+    #     if not self.user_id:
+    #         self.user_id = self.get_user_id()
 
-        super(Feedback, self).save(*args, **kwargs)
+    #     super(Feedback, self).save(*args, **kwargs)
 
     def __str__(self):
         return self.comment
