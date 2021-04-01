@@ -4,14 +4,14 @@ from .models import Messages, Feedback, Topics
 class TopicsSerializer(serializers.ModelSerializer):
     class Meta:
       model = Topics
-      fields = ['topic_name']
+      fields = ['id','topic_name']
 
 
 class FeedbackSerializer(serializers.ModelSerializer):
 
     class Meta:
         model = Feedback
-        fields = ['is_liked', 'is_disliked', 'comment', 'username', 'user_id']
+        fields = ['id', 'is_liked', 'is_disliked', 'comment', 'username', 'user_id']
 
 
 class MessagesSerializer(serializers.ModelSerializer):
