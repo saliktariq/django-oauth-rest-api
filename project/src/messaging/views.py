@@ -72,6 +72,8 @@ class FeedbackViewset(viewsets.ModelViewSet):
     def create(self, request, *args, **kwargs):
         feedback_data = request.data
         message_object = Messages.objects.filter(post_identifier=feedback_data['post_identifier'])
+        #check who is posting the message
+        #check if user is not liking and disliking at the same time
         new_feedback = Feedback.objects.create(is_liked= feedback_data['is_liked'],is_disliked= feedback_data['is_disliked'], comment= feedback_data['comment'])
         message_object.feedbacks.add(new_feedback)
         serializer = MessagesSerializer(new_feedback)
