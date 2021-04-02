@@ -10,8 +10,11 @@ from django.utils import timezone
 from django.core.exceptions import ObjectDoesNotExist
 from django.http import Http404
 
+
 class MessagesViewset(viewsets.ModelViewSet):
     serializer_class = MessagesSerializer
+
+    
 
     def get_queryset(self):
         messages = Messages.objects.all()
@@ -30,7 +33,13 @@ class MessagesViewset(viewsets.ModelViewSet):
     #Learnt by following https://www.youtube.com/watch?v=4dPVywV-X84&list=PLmDLs7JbXWNjr5vyJhfGu69sowgIUl8z5&index=14
     def create(self, request, *args, **kwargs):
         message_data = request.data
+        value = message_data['expiry_in_seconds']
+        if value <= 0:
+            return Response({
+                'Error': 'Enter a positive expiry time delta in seconds.'
+            })
         expired_time_calculated = timezone.now() + timedelta(seconds = message_data['expiry_in_seconds'])
+
         new_message = Messages.objects.create(title=message_data['title'], message= message_data['message'],  expiry_in_seconds= expired_time_calculated, username= request.user.username)
         
         new_message.save()

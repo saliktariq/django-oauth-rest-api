@@ -4,15 +4,10 @@ from datetime import timedelta
 from django.utils import timezone
 from django.core import validators
 from django.core.exceptions import ValidationError
-from django.utils.translation import gettext_lazy as _
+#from django.utils.translation import gettext_lazy as _
 
 
 class Messages(models.Model):
-
-    # def expiration_time_calculation(self):
-    #     EXPIRATION_DURATION = 86400  # time in seconds
-    #     expiration_time = self.creation_timestamp + timedelta(seconds=EXPIRATION_DURATION)
-    #     return expiration_time
 
     post_identifier = models.AutoField(primary_key=True)
     topic = models.ManyToManyField('Topics')
@@ -25,13 +20,6 @@ class Messages(models.Model):
     dislikes = models.PositiveIntegerField(default=0)
     total_interactions = models.PositiveIntegerField(default=0)
 
-
-
-    # def save(self, *args, **kwargs):
-
-    #     if not self.expiration_timestamp:
-    #         self.expiration_timestamp = self.expiration_time_calculation()
-    #     super(Messages, self).save(*args, **kwargs)
 
 
     def __str__(self):
