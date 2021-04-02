@@ -4,6 +4,8 @@ from .models import Messages, Feedback, Topics
 from django.contrib.auth.models import User
 from rest_framework.response import Response
 from datetime import timedelta
+import datetime
+import pytz
 from django.utils import timezone
 
 class MessagesViewset(viewsets.ModelViewSet):
@@ -80,7 +82,7 @@ class FeedbackViewset(viewsets.ModelViewSet):
         feedback_data = request.data
         message_object = Messages.objects.filter(post_identifier=feedback_data['post_identifier']).first()
 
-
+#check who is posting the message
         if (request.user.username == message_object.username):
             return Response(
                 {
@@ -88,19 +90,30 @@ class FeedbackViewset(viewsets.ModelViewSet):
                 }
             )
 
-        if(timezone.now > message_object.expiration_timestamp):
+        utc = pytz.UTC
+
+        if(timezone.now() > message_object.expiration_timestamp):
             return Response(
                 {
                     "Error: ": "Post is expired now, can not add comments."
                 }
             )
-
+ #check if user is not liking and disliking at the same time
+        if (feedback_data['is_liked'] and feedback_data['is_disliked']):
+            return Response(
+                {
+                    "Error: ": "Post can not be liked and disliked at the same time."
+                }
+            )
         
 
-        #check who is posting the message
-        #check if user is not liking and disliking at the same time
+        
+       
         new_feedback = Feedback.objects.create(is_liked= feedback_data['is_liked'],is_disliked= feedback_data['is_disliked'], comment= feedback_data['comment'], username= request.user.username, message=message_object)
         new_feedback.save()
+        print('---------------')
+        print(message_object)
+        print('---------------')
        # message_object.feedbacks.add(new_feedback)
         serializer = FeedbackSerializer(new_feedback)
         return Response(serializer.data)

@@ -37,46 +37,46 @@ def registerNewUser(username, password, firstname, lastname):
 
 ############################################################
 
-import requests, json
-newUserToken = registerNewUser('saliktariq','salik1','Salik','Tariq')
-access_token = newUserToken['access_token']
-messageURL = 'http://127.0.0.1:8000/v1/message/'
-headers = {'Authorization': 'Bearer '+str(access_token)}
-dataset = {
-
-        "topic": [
-            {
-
-                "topic_name": "H"
-            },
-            {
-
-                "topic_name": "F"
-            }
-        ],
-        "title": "Title THREE",
-        "message": "This is third message"
-       
-    }
-
-submitResponse = requests.post(messageURL, headers = headers, json= dataset)
-print(submitResponse.json())
-
-####################################################################
-
 # import requests, json
 # newUserToken = registerNewUser('saliktariq','salik1','Salik','Tariq')
 # access_token = newUserToken['access_token']
-# messageURL = 'http://127.0.0.1:8000/v1/feedback/'
+# messageURL = 'http://127.0.0.1:8000/v1/message/'
 # headers = {'Authorization': 'Bearer '+str(access_token)}
 # dataset = {
-#         "post_identifier": 3,
-#         "is_liked": True,
-#         "is_disliked": False,
-#         "comment": "Blowing my own trumpet"
+
+#         "topic": [
+#             {
+
+#                 "topic_name": "H"
+#             },
+#             {
+
+#                 "topic_name": "F"
+#             }
+#         ],
+#         "title": "Title THREE",
+#         "message": "This is third message"
        
 #     }
 
 # submitResponse = requests.post(messageURL, headers = headers, json= dataset)
 # print(submitResponse.json())
+
+####################################################################
+
+import requests, json
+newUserToken = registerNewUser('saliktariq2','salik1','Salik','Tariq')
+access_token = newUserToken['access_token']
+messageURL = 'http://127.0.0.1:8000/v1/feedback/'
+headers = {'Authorization': 'Bearer '+str(access_token)}
+dataset = {
+        "post_identifier": 6,
+        "is_liked": True,
+        "is_disliked": False,
+        "comment": "this is a nice feedback"
+       
+    }
+
+submitResponse = requests.post(messageURL, headers = headers, json= dataset)
+print(submitResponse.json())
 

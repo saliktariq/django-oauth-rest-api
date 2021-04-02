@@ -37,6 +37,10 @@ class Messages(models.Model):
     creation_timestamp = models.DateTimeField(default=timezone.now)
     expiration_timestamp = models.DateTimeField()
     username = models.CharField(max_length=100)
+    #######testing new fields#######
+    likes = models.PositiveIntegerField(default=0)
+    dislikes = models.PositiveIntegerField(default=0)
+    total_interactions = models.PositiveIntegerField(default=0)
 
 
     def save(self, *args, **kwargs):
