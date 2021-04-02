@@ -20,7 +20,7 @@ class Messages(models.Model):
     topic = models.ManyToManyField('Topics')
     title = models.CharField(max_length=100)
     message = models.TextField()
-    creation_timestamp = models.DateTimeField(default=timezone.now)
+    creation_timestamp = models.DateTimeField(default=timezone.now())
     expiration_timestamp = models.DateTimeField()
     username = models.CharField(max_length=100)
     likes = models.PositiveIntegerField(default=0)

@@ -28,8 +28,11 @@ class MessagesSerializer(serializers.ModelSerializer):
     def _check_remaining_time(self, messages_object):
         expiration_time = getattr(messages_object, "expiration_timestamp")
         remaining_time = expiration_time - timezone.now()
-        return 0
-
+        if(remaining_time.total_seconds() < 0):
+            return 0
+        else:
+            return remaining_time
+        
 
     feedbacks = FeedbackSerializer(source='feedback_set', many=True)
 
