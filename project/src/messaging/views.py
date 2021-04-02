@@ -30,10 +30,9 @@ class MessagesViewset(viewsets.ModelViewSet):
     #Learnt by following https://www.youtube.com/watch?v=4dPVywV-X84&list=PLmDLs7JbXWNjr5vyJhfGu69sowgIUl8z5&index=14
     def create(self, request, *args, **kwargs):
         message_data = request.data
-        if('expiration_timestamp' in message_data):
-            new_message = Messages.objects.create(title=message_data['title'], message= message_data['message'],  expiration_timestamp= message_data['expiration_timestamp'], username= request.user.username)
-        else:
-            new_message = Messages.objects.create(title=message_data['title'], message= message_data['message'], username= request.user.username)
+        expired_time_calculated = timezone.now() + timedelta(seconds = message_data['expiry_in_seconds'])
+        new_message = Messages.objects.create(title=message_data['title'], message= message_data['message'],  expiry_in_seconds= expired_time_calculated, username= request.user.username)
+        
         new_message.save()
 
         for topic in message_data['topic']:
@@ -104,7 +103,7 @@ class FeedbackViewset(viewsets.ModelViewSet):
 
 
 
-        if(timezone.now() > message_object.expiration_timestamp):
+        if(timezone.now() > message_object.expiry_in_seconds):
             return Response(
                 {
                     "Error: ": "Post is expired now, can not add comments."
@@ -179,5 +178,35 @@ class SearchMessageByTopic(viewsets.ModelViewSet):
             message = Messages.objects.filter(topic__topic_name__icontains = parameters['pk']).order_by('-total_interactions')
             serializer = MessagesSerializer(message, many=True)
             return Response(serializer.data)
+        except ObjectDoesNotExist:
+            raise Http404 
+
+class SearchExpiredMessageByTopic(viewsets.ModelViewSet):
+    serializer_class = MessagesSerializer
+
+    def get_queryset(self):
+        messages = Messages.objects.all()
+        return messages
+
+
+
+    def retrieve(self, request, *args, **kwargs): 
+        parameters = kwargs
+
+        try:
+            message = Messages.objects.filter(topic__topic_name__icontains = parameters['pk'])
+
+            serializer = MessagesSerializer(message, many=True)
+            retrieved_messages = serializer.data
+            d= {}
+            i = 1
+            for msg in retrieved_messages:
+                
+                if not msg["live_status"]:
+                    key_name = 'Expired message number: ' + str(i)
+                    d[key_name] = msg
+                i = i + 1
+            
+            return Response(d)
         except ObjectDoesNotExist:
             raise Http404 

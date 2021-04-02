@@ -26,7 +26,7 @@ def registerNewUser(username, password, firstname, lastname):
 # messageURL = 'http://127.0.0.1:8000/v1/topic/'
 # headers = {'Authorization': 'Bearer '+str(access_token)}
 # dataset = {
-#                     "topic_name": "T"
+#                     "topic_name": "S"
 #             }
 
 
@@ -38,7 +38,7 @@ def registerNewUser(username, password, firstname, lastname):
 ############################################################
 
 # import requests, json
-# newUserToken = registerNewUser('saliktariq','salik1','Salik','Tariq')
+# newUserToken = registerNewUser('saliktariq17','salik1','Salik','Tariq')
 # access_token = newUserToken['access_token']
 # messageURL = 'http://127.0.0.1:8000/v1/message/'
 # headers = {'Authorization': 'Bearer '+str(access_token)}
@@ -47,15 +47,16 @@ def registerNewUser(username, password, firstname, lastname):
 #         "topic": [
 #             {
 
-#                 "topic_name": "H"
+#                 "topic_name": "P"
 #             },
 #             {
 
-#                 "topic_name": "F"
+#                 "topic_name": "H"
 #             }
 #         ],
-#         "title": "Title THREE",
-#         "message": "This is third message"
+#         "title": "Second Message",
+#         "message": "This is second message",
+#         'expiry_in_seconds': 300
        
 #     }
 
@@ -64,19 +65,19 @@ def registerNewUser(username, password, firstname, lastname):
 
 ####################################################################
 
-import requests, json
-newUserToken = registerNewUser('saliktariq2','salik1','Salik','Tariq')
-access_token = newUserToken['access_token']
-messageURL = 'http://127.0.0.1:8000/v1/feedback/'
-headers = {'Authorization': 'Bearer '+str(access_token)}
-dataset = {
-        "post_identifier": 6,
-        "is_liked": False,
-        "is_disliked": True,
-        "comment": "third time a charm feedback"
+# import requests, json
+# newUserToken = registerNewUser('saliktariq','salik1','Salik','Tariq')
+# access_token = newUserToken['access_token']
+# messageURL = 'http://127.0.0.1:8000/v1/feedback/'
+# headers = {'Authorization': 'Bearer '+str(access_token)}
+# dataset = {
+#         "post_identifier": 9,
+#         "is_liked": False,
+#         "is_disliked": True,
+#         "comment": "first feedback"
        
-    }
+#     }
 
-submitResponse = requests.post(messageURL, headers = headers, json= dataset)
-print(submitResponse.json())
+# submitResponse = requests.post(messageURL, headers = headers, json= dataset)
+# print(submitResponse.json())
 

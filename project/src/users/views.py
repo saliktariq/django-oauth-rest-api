@@ -6,8 +6,8 @@ import requests
 
 from .serializers import CreateUserSerializer
 
-CLIENT_ID = 'HOpLF4SkVHoYkoZJn6OIscwMiKj0fsOf9VshLbvm'
-CLIENT_SECRET = 'cVS8OQ8vhji7ghMLjYzjiuP5E2aiQO4A7jWJkrysG83EEC0SCSgZJoC6XCUBZqhWzCUQW1nqyZqoaNkjtlnu8KAEqoi7J4dw1Opb8jlv4jFp1qPuJCC2H4P4ZZoJs2D5'
+CLIENT_ID = '2lHq2KykPNEP9JfyXbxks191kj5AfBdJEvsm6kGI'
+CLIENT_SECRET = 'ZqDcQqy7zcqlvZSEirzF8UMuNNC10fUGsL6y6iqncqUEEOvABAIJFF3JzmOJKRuma61xPvIg0pAqOO3pWbDc9Q9zSveNH0IQHR9EF6QkzNrJkYttBZ5aXmlLLRmDAtpF'
 
 IP_token = 'http://127.0.0.1:8000/o/token/'
 IP_revoke_token = 'http://127.0.0.1:8000/o/revoke_token/'

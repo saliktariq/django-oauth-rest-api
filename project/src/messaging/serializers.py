@@ -19,14 +19,14 @@ class MessagesSerializer(serializers.ModelSerializer):
     live_time_remaining = serializers.SerializerMethodField('_check_remaining_time')
 
     def _check_live_status(self, messages_object):
-        expiration_time = getattr(messages_object, "expiration_timestamp")
+        expiration_time = getattr(messages_object, "expiry_in_seconds")
         if (expiration_time > timezone.now()):
             return True
         else:
             return False
 
     def _check_remaining_time(self, messages_object):
-        expiration_time = getattr(messages_object, "expiration_timestamp")
+        expiration_time = getattr(messages_object, "expiry_in_seconds")
         remaining_time = expiration_time - timezone.now()
         if(remaining_time.total_seconds() < 0):
             return 0
@@ -38,7 +38,7 @@ class MessagesSerializer(serializers.ModelSerializer):
 
     class Meta:
         model = Messages
-        fields = ['post_identifier', 'topic', 'title', 'message', 'creation_timestamp', 'expiration_timestamp', 'username', 'likes', 'dislikes', 'total_interactions','feedbacks', 'live_status', 'live_time_remaining']
+        fields = ['post_identifier', 'topic', 'title', 'message', 'creation_timestamp', 'expiry_in_seconds', 'username', 'likes', 'dislikes', 'total_interactions','feedbacks', 'live_status', 'live_time_remaining']
         depth = 1
 
    
