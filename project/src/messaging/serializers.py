@@ -23,11 +23,12 @@ class MessagesSerializer(serializers.ModelSerializer):
             return False
 
    # is_live = serializers.SerializerMethodField(method_name=check_live_status)
-   # feedbacks = FeedbackSerializer(source='feedback_set', many=True)
+    feedbacks = FeedbackSerializer(source='feedback_set', many=True)
 
     class Meta:
         model = Messages
         fields = '__all__'
-        #fields = ['post_identifier', 'topic', 'title', 'message', 'creation_timestamp', 'expiration_timestamp', 'username']#'is_live', ]#, 
+        #fields = ['post_identifier', 'topic', 'title', 'message', 'creation_timestamp', 'expiration_timestamp', 'username', 'feedbacks']#'is_live', ]#, 
+        depth = 1
 
    

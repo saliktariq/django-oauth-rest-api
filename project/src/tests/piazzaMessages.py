@@ -38,7 +38,7 @@ def registerNewUser(username, password, firstname, lastname):
 ############################################################
 
 import requests, json
-newUserToken = registerNewUser('saliktariq210','salik1','Salik','Tariq')
+newUserToken = registerNewUser('saliktariq','salik1','Salik','Tariq')
 access_token = newUserToken['access_token']
 messageURL = 'http://127.0.0.1:8000/v1/message/'
 headers = {'Authorization': 'Bearer '+str(access_token)}
@@ -54,8 +54,8 @@ dataset = {
                 "topic_name": "F"
             }
         ],
-        "title": "Title TWO",
-        "message": "This is second message"
+        "title": "Title THREE",
+        "message": "This is third message"
        
     }
 
