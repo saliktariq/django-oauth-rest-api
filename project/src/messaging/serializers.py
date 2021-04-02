@@ -1,5 +1,7 @@
 from rest_framework import serializers
 from .models import Messages, Feedback, Topics
+import datetime
+from django.utils import timezone
 
 
 
@@ -12,9 +14,11 @@ class FeedbackSerializer(serializers.ModelSerializer):
 
 
 class MessagesSerializer(serializers.ModelSerializer):
+    live_status = serializers.SerializerMethodField('_check_live_status')
 
-    def _check_live_status(self):
-        if (self.expiration_timestamp > timezone.now):
+    def _check_live_status(self, messages_object):
+        expiration_time = getattr(messages_object, "expiration_timestamp")
+        if (expiration_time > timezone.now()):
             return True
         else:
             return False
@@ -24,7 +28,7 @@ class MessagesSerializer(serializers.ModelSerializer):
 
     class Meta:
         model = Messages
-        fields = ['post_identifier', 'topic', 'title', 'message', 'creation_timestamp', 'expiration_timestamp', 'username', 'likes', 'dislikes', 'total_interactions','feedbacks']
+        fields = ['post_identifier', 'topic', 'title', 'message', 'creation_timestamp', 'expiration_timestamp', 'username', 'likes', 'dislikes', 'total_interactions','feedbacks', 'live_status']
         depth = 1
 
    
