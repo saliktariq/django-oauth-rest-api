@@ -20,7 +20,6 @@ class MessagesViewset(viewsets.ModelViewSet):
     #Learnt by following https://www.youtube.com/watch?v=ws0jwg1J0BU&list=PLmDLs7JbXWNjr5vyJhfGu69sowgIUl8z5&index=12
     def retrieve(self, request, *args, **kwargs): 
         parameters = kwargs
-        #message = Messages.objects.filter(post_identifier = parameters['pk'])
         try:
             message = Messages.objects.get(post_identifier = parameters['pk'])
             serializer = MessagesSerializer(message) # use extra argument many=True if expecting multiple records
@@ -95,7 +94,7 @@ class FeedbackViewset(viewsets.ModelViewSet):
         feedback_data = request.data
         message_object = Messages.objects.filter(post_identifier=feedback_data['post_identifier']).first()
 
-#check who is posting the message
+
         if (request.user.username == message_object.username):
             return Response(
                 {
@@ -111,7 +110,7 @@ class FeedbackViewset(viewsets.ModelViewSet):
                     "Error: ": "Post is expired now, can not add comments."
                 }
             )
- #check if user is not liking and disliking at the same time
+
         if (feedback_data['is_liked'] and feedback_data['is_disliked']):
             return Response(
                 {
@@ -136,7 +135,7 @@ class FeedbackViewset(viewsets.ModelViewSet):
         new_feedback = Feedback.objects.create(is_liked= feedback_data['is_liked'],is_disliked= feedback_data['is_disliked'], comment= feedback_data['comment'], username= request.user.username, message=message_object)
         new_feedback.save()
 
-       # message_object.feedbacks.add(new_feedback)
+
         serializer = FeedbackSerializer(new_feedback)
         return Response(serializer.data)
 

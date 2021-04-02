@@ -14,8 +14,6 @@ class Messages(models.Model):
         expiration_time = self.creation_timestamp + timedelta(seconds=EXPIRATION_DURATION)
         return expiration_time
 
-
-
     post_identifier = models.AutoField(primary_key=True)
     topic = models.ManyToManyField('Topics')
     title = models.CharField(max_length=100)
