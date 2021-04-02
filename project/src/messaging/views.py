@@ -90,7 +90,7 @@ class FeedbackViewset(viewsets.ModelViewSet):
                 }
             )
 
-        utc = pytz.UTC
+
 
         if(timezone.now() > message_object.expiration_timestamp):
             return Response(
@@ -107,13 +107,22 @@ class FeedbackViewset(viewsets.ModelViewSet):
             )
         
 
-        
-       
+        if(feedback_data['is_liked']):
+            message_object.likes = message_object.likes + 1
+        else:
+            message_object.likes = message_object.likes
+        if(feedback_data['is_disliked']):
+            message_object.dislikes = message_object.dislikes + 1
+        else:
+            message_object.dislikes = message_object.dislikes
+        message_object.total_interactions = message_object.total_interactions + 1
+
+        message_object.save(update_fields=['likes', 'dislikes', 'total_interactions'])
+
+
         new_feedback = Feedback.objects.create(is_liked= feedback_data['is_liked'],is_disliked= feedback_data['is_disliked'], comment= feedback_data['comment'], username= request.user.username, message=message_object)
         new_feedback.save()
-        print('---------------')
-        print(message_object)
-        print('---------------')
+
        # message_object.feedbacks.add(new_feedback)
         serializer = FeedbackSerializer(new_feedback)
         return Response(serializer.data)

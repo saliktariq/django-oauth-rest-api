@@ -71,9 +71,9 @@ messageURL = 'http://127.0.0.1:8000/v1/feedback/'
 headers = {'Authorization': 'Bearer '+str(access_token)}
 dataset = {
         "post_identifier": 6,
-        "is_liked": True,
-        "is_disliked": False,
-        "comment": "this is a nice feedback"
+        "is_liked": False,
+        "is_disliked": True,
+        "comment": "third time a charm feedback"
        
     }
 
