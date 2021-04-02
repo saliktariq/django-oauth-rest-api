@@ -2,6 +2,7 @@ from rest_framework import serializers
 from .models import Messages, Feedback, Topics
 import datetime
 from django.utils import timezone
+from datetime import timedelta
 
 
 
@@ -15,6 +16,7 @@ class FeedbackSerializer(serializers.ModelSerializer):
 
 class MessagesSerializer(serializers.ModelSerializer):
     live_status = serializers.SerializerMethodField('_check_live_status')
+    live_time_remaining = serializers.SerializerMethodField('_check_remaining_time')
 
     def _check_live_status(self, messages_object):
         expiration_time = getattr(messages_object, "expiration_timestamp")
@@ -23,12 +25,17 @@ class MessagesSerializer(serializers.ModelSerializer):
         else:
             return False
 
+    def _check_remaining_time(self, messages_object):
+        expiration_time = getattr(messages_object, "expiration_timestamp")
+        remaining_time = expiration_time - timezone.now()
+        return 0
+
 
     feedbacks = FeedbackSerializer(source='feedback_set', many=True)
 
     class Meta:
         model = Messages
-        fields = ['post_identifier', 'topic', 'title', 'message', 'creation_timestamp', 'expiration_timestamp', 'username', 'likes', 'dislikes', 'total_interactions','feedbacks', 'live_status']
+        fields = ['post_identifier', 'topic', 'title', 'message', 'creation_timestamp', 'expiration_timestamp', 'username', 'likes', 'dislikes', 'total_interactions','feedbacks', 'live_status', 'live_time_remaining']
         depth = 1
 
    
