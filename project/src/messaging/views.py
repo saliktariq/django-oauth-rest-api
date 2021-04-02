@@ -5,8 +5,10 @@ from django.contrib.auth.models import User
 from rest_framework.response import Response
 from datetime import timedelta
 import datetime
-import pytz
+import json
 from django.utils import timezone
+from django.core.exceptions import ObjectDoesNotExist
+from django.http import Http404
 
 class MessagesViewset(viewsets.ModelViewSet):
     serializer_class = MessagesSerializer
@@ -18,9 +20,13 @@ class MessagesViewset(viewsets.ModelViewSet):
     #Learnt by following https://www.youtube.com/watch?v=ws0jwg1J0BU&list=PLmDLs7JbXWNjr5vyJhfGu69sowgIUl8z5&index=12
     def retrieve(self, request, *args, **kwargs): 
         parameters = kwargs
-        message = Messages.objects.filter(post_identifier = parameters['pk'])
-        serializer = MessagesSerializer(message) # use extra argument many=True if expecting multiple records
-        return Response(serializer.data)
+        #message = Messages.objects.filter(post_identifier = parameters['pk'])
+        try:
+            message = Messages.objects.get(post_identifier = parameters['pk'])
+            serializer = MessagesSerializer(message) # use extra argument many=True if expecting multiple records
+            return Response(serializer.data)
+        except ObjectDoesNotExist:
+            raise Http404 #https://stackoverflow.com/questions/52575523/how-to-capture-the-model-doesnotexist-exception-in-django-rest-framework
 
     #Learnt by following https://www.youtube.com/watch?v=4dPVywV-X84&list=PLmDLs7JbXWNjr5vyJhfGu69sowgIUl8z5&index=14
     def create(self, request, *args, **kwargs):
@@ -49,9 +55,13 @@ class TopicsViewset(viewsets.ModelViewSet):
     
     def retrieve(self, request, *args, **kwargs): 
         parameters = kwargs
-        topic = Messages.objects.filter(topic_name = parameters['pk'])
-        serializer = TopicsSerializer(topic, many=True)
-        return Response(serializer.data)
+        try:
+            topic = Topics.objects.get(topic_name = parameters['pk'].upper())
+            serializer = TopicsSerializer(topic)
+            return Response(serializer.data)
+
+        except ObjectDoesNotExist:
+            raise Http404
 
 
     def create(self, request, *args, **kwargs):
@@ -69,13 +79,16 @@ class FeedbackViewset(viewsets.ModelViewSet):
         feedback = Feedback.objects.all()
         return feedback
 
-    
     def retrieve(self, request, *args, **kwargs): 
         parameters = kwargs
-        message_object = Messages.objects.filter(post_identifier = parameters['pk'])
-        feedback_data = message_object['feedbacks']
-        serializer = MessagesSerializer(feedback_data, many=True)
-        return Response(serializer.data)
+        try:
+            feedback = Feedback.objects.get(id = parameters['pk'])
+            serializer = FeedbackSerializer(feedback)
+            return Response(serializer.data)
+
+        except ObjectDoesNotExist:
+            raise Http404
+
 
 
     def create(self, request, *args, **kwargs):
@@ -127,9 +140,45 @@ class FeedbackViewset(viewsets.ModelViewSet):
         serializer = FeedbackSerializer(new_feedback)
         return Response(serializer.data)
 
+class SearchByTopicViewset(viewsets.ModelViewSet):
+    serializer_class = TopicsSerializer
+
+    def get_queryset(self):
+        messages = Topics.objects.all()
+        return messages
 
 
-    
+    def retrieve(self, request, *args, **kwargs): 
+        parameters = kwargs
+        search = parameters['pk'].upper()
+        message = Topics.objects.filter(topic_name= search).values("messages__post_identifier","messages__title","messages__message","messages__creation_timestamp","messages__expiration_timestamp","messages__username","messages__likes","messages__dislikes","messages__total_interactions").order_by("-messages__total_interactions")
+        return Response(message)
+
+
+class MessagesSortedByInteractionViewSet(viewsets.ModelViewSet):
+    serializer_class = MessagesSerializer
+
+    def get_queryset(self):
+        messages = Messages.objects.order_by('-total_interactions')
+        return messages
 
 
 
+class SearchMessageByTopic(viewsets.ModelViewSet):
+    serializer_class = MessagesSerializer
+
+    def get_queryset(self):
+        messages = Messages.objects.all()
+        return messages
+
+
+
+    def retrieve(self, request, *args, **kwargs): 
+        parameters = kwargs
+
+        try:
+            message = Messages.objects.filter(topic__topic_name__icontains = parameters['pk']).order_by('-total_interactions')
+            serializer = MessagesSerializer(message, many=True)
+            return Response(serializer.data)
+        except ObjectDoesNotExist:
+            raise Http404 
