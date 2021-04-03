@@ -156,7 +156,7 @@ unsuccessful as the user is unauthorised
 """
 print('\n\n\nTC 3. Olga makes a call to the API without using her token. This call should be unsuccessful as the user is unauthorised\n\n\n')
 
-import requests, json
+import requests
 message_URL = 'http://127.0.0.1:8000/v1/message/'
 
 olga_request = requests.get(message_URL)
