@@ -36,8 +36,8 @@ class Topics(models.Model):
 
 class Feedback(models.Model):
 
-    is_liked = models.BooleanField(default=False)
-    is_disliked = models.BooleanField(default=False)
+    is_liked = models.BooleanField(default=False, blank=True)
+    is_disliked = models.BooleanField(default=False, blank=True)
     comment = models.TextField(blank=True)
     username = models.CharField(max_length=100)
     message = models.ForeignKey(Messages, on_delete=models.CASCADE)

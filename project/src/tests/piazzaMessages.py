@@ -37,31 +37,31 @@ def registerNewUser(username, password, firstname, lastname):
 
 ############################################################
 
-import requests, json
-newUserToken = registerNewUser('saliktariq189','salik1','Salik','Tariq')
-access_token = newUserToken['access_token']
-messageURL = 'http://127.0.0.1:8000/v1/message/'
-headers = {'Authorization': 'Bearer '+str(access_token)}
-dataset = {
+# import requests, json
+# newUserToken = registerNewUser('saliktariq189','salik1','Salik','Tariq')
+# access_token = newUserToken['access_token']
+# message_URL = 'http://127.0.0.1:8000/v1/message/'
+# headers = {'Authorization': 'Bearer '+str(access_token)}
+# dataset = {
 
-        "topic": [
-            {
+#         "topic": [
+#             {
 
-                "topic_name": "P"
-            },
-            {
+#                 "topic_name": "P"
+#             },
+#             {
 
-                "topic_name": "H"
-            }
-        ],
-        "title": "Second Message",
-        "message": "This is second message",
-        'expiry_in_seconds': 10
+#                 "topic_name": "H"
+#             }
+#         ],
+#         "title": "Second Message",
+#         "message": "This is second message",
+#         'expiry_in_seconds': 10
        
-    }
+#     }
 
-submitResponse = requests.post(messageURL, headers = headers, json= dataset)
-print(submitResponse.json())
+# submitResponse = requests.post(message_URL, headers = headers, json= dataset)
+# print(submitResponse.json())
 
 ####################################################################
 
