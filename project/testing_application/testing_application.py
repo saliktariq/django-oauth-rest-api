@@ -318,6 +318,8 @@ for request in olga_request.json():
     print('Post number : ' + str(post_number))
     print('Post by : ' + str(request['username']))
     print('Topic : ' + str(request['topic'][0]['topic_name']))
+    print('Title : ' + str(request['title']))
+    print('Message : ' + str(request['message']))
     print('Likes : ' + str(request['likes']))
     print('Dislikes : ' + str(request['dislikes']))
     print('Comments : ' + str(request['feedbacks']))
@@ -355,20 +357,20 @@ else:
     print(submit_request.json())
     
 
-access_token = olga['access_token']
-headers = {'Authorization': 'Bearer '+str(access_token)}
-
-
-dataset = {
-        "post_identifier": marys_post_identifier,
-        "is_liked": True,
-        "is_disliked": False,
-        "comment": ""
-
-    }
-
-submit_request = requests.post(feedback_URL, headers = headers, json= dataset)
-print(submit_request.json())
+    access_token = olga['access_token']
+    headers = {'Authorization': 'Bearer '+str(access_token)}
+    
+    
+    dataset = {
+            "post_identifier": marys_post_identifier,
+            "is_liked": True,
+            "is_disliked": False,
+            "comment": ""
+    
+        }
+    
+    submit_request = requests.post(feedback_URL, headers = headers, json= dataset)
+    print(submit_request.json())
 
 
 """
@@ -457,8 +459,255 @@ for request in nick_request.json():
     print('Comments : ' + str(request['feedbacks']))
 
 
+"""
+TC 11. Mary likes her post in the Tech topic. This call should be unsuccessful,
+as in Piazza a post owner cannot like their own message.
+"""
+
+import requests, json
+access_token = mary['access_token']
+feedback_URL = 'http://127.0.0.1:8000/v1/feedback/'
+tech_posts_URL = 'http://127.0.0.1:8000/v1/messagebytopic/T/'
+headers = {'Authorization': 'Bearer '+str(access_token)}
+
+mary_post_identifier = 0
+post_count = 0
+posts_in_tech = requests.get(tech_posts_URL, headers = headers)
+for request in posts_in_tech.json():
+    if request['username'] == 'mary':
+        mary_post_identifier = request['post_identifier']
+        post_count = post_count + 1
+if post_count != 1:
+    print('There are more than 1 posts by Mary or none at all. Test failed. Re-check previous tests')
+else:
+    
+    dataset = {
+            "post_identifier": mary_post_identifier,
+            "is_liked": True,
+            "is_disliked": False,
+            "comment": ""
+        }
+
+    submit_request = requests.post(feedback_URL, headers = headers, json= dataset)
+    print(submit_request.json())
+    
+
+"""
+TC 12. Nick and Olga comment for Mary's post in the Tech topic in a round-robin
+fashion(one after another adding atleast 2 comments each)
+"""
+
+import requests, json
+nick_access_token = nick['access_token']
+feedback_URL = 'http://127.0.0.1:8000/v1/feedback/'
+tech_posts_URL = 'http://127.0.0.1:8000/v1/messagebytopic/T/'
+headers = {'Authorization': 'Bearer '+str(nick_access_token)}
+
+marys_post_identifier = 0
+post_count = 0
+posts_in_tech = requests.get(tech_posts_URL, headers = headers)
+for request in posts_in_tech.json():
+    if request['username'] == 'mary':
+        marys_post_identifier = request['post_identifier']
+        post_count = post_count + 1
+if post_count != 1:
+    print('There are more than 1 posts by Mary or none at all. Test failed. Re-check previous tests')
+else:
+    
+    dataset = {
+            "post_identifier": marys_post_identifier,
+            "is_liked": False,
+            "is_disliked": False,
+            "comment": "Nick's first comment on Mary's post"
+        }
+
+    submit_request = requests.post(feedback_URL, headers = headers, json= dataset)
+    print(submit_request.json())
+    
+
+    olga_access_token = olga['access_token']
+    headers = {'Authorization': 'Bearer '+str(olga_access_token)}
+    
+    
+    dataset = {
+            "post_identifier": marys_post_identifier,
+            "is_liked": False,
+            "is_disliked": False,
+            "comment": "Olga's first comment on Mary's post"
+    
+        }
+    
+    submit_request = requests.post(feedback_URL, headers = headers, json= dataset)
+    print(submit_request.json())
+    
+    headers = {'Authorization': 'Bearer '+str(nick_access_token)}
+    dataset = {
+            "post_identifier": marys_post_identifier,
+            "is_liked": False,
+            "is_disliked": False,
+            "comment": "Nick's second comment on Mary's post"
+    
+        }
+    submit_request = requests.post(feedback_URL, headers = headers, json= dataset)
+    print(submit_request.json())
+    
+    headers = {'Authorization': 'Bearer '+str(olga_access_token)}
+    
+    
+    dataset = {
+            "post_identifier": marys_post_identifier,
+            "is_liked": False,
+            "is_disliked": False,
+            "comment": "Olga's second comment on Mary's post"
+    
+        }
+    
+    submit_request = requests.post(feedback_URL, headers = headers, json= dataset)
+    print(submit_request.json())
+    
+"""
+TC 13. Nick browse all the available posts in the Tech topic, at this stage he
+can see the number of likes and dislikes of each post and the comments made
+"""
+
+import requests, json
+tech_posts_URL = 'http://127.0.0.1:8000/v1/messagebytopic/T/'
+access_token = nick['access_token']
+headers = {'Authorization': 'Bearer '+str(access_token)}
+
+nick_request = requests.get(tech_posts_URL, headers = headers)
+
+print('----------FULL DATASET RECEIVED--------------------')
+print(nick_request.json())
+print('---------------------------------------------------')
+post_number = 0
+for request in nick_request.json():
+    post_number = post_number + 1
+    print('Post number : ' + str(post_number))
+    print('Post by : ' + str(request['username']))
+    print('Topic : ' + str(request['topic'][0]['topic_name']))
+    print('Title : ' + str(request['title']))
+    print('Message : ' + str(request['message']))
+    print('Likes : ' + str(request['likes']))
+    print('Dislikes : ' + str(request['dislikes']))
+    for comment in request['feedbacks']:
+        print('Comment: ' + str(comment['comment']))
+        print('Commented by: '+ str(comment['username']))
+    
+"""
+TC 14. Nester posts a message in the Health topic with an expiration time using her token
+"""
+
+import requests, json
+message_URL = 'http://127.0.0.1:8000/v1/message/'
+access_token = nester['access_token']
+headers = {'Authorization': 'Bearer '+str(access_token)}
+dataset = {
+
+        "topic": [
+            {
+
+                "topic_name": "H"
+            }
+        ],
+        "title": "Nester's first message in Health",
+        "message": "This is Nester's first message in the Health topic.",
+        'expiry_in_seconds': 1
+       
+    }
+
+nester_request_to_post = requests.post(message_URL, headers = headers, json= dataset)
+print(nester_request_to_post.json())
 
 
+"""
+TC. 15 Mary browse all the available posts in the Health topic, at this stage
+she can see only Nestor's post'
+"""
+
+import requests, json
+health_posts_URL = 'http://127.0.0.1:8000/v1/messagebytopic/H/'
+access_token = mary['access_token']
+headers = {'Authorization': 'Bearer '+str(access_token)}
+
+marys_request = requests.get(health_posts_URL, headers = headers)
+
+print('----------MARYs REQUEST: FULL DATASET RECEIVED--------------------')
+print(marys_request.json())
+print('---------------------------------------------------')
+post_number = 0
+for request in marys_request.json():
+    post_number = post_number + 1
+    print('Post number : ' + str(post_number))
+    print('Post by : ' + str(request['username']))
+    print('Topic : ' + str(request['topic'][0]['topic_name']))
+    print('Title : ' + str(request['title']))
+    print('Message : ' + str(request['message']))
+    print('Likes : ' + str(request['likes']))
+    print('Dislikes : ' + str(request['dislikes']))
+    print('Comments : ' + str(request['feedbacks']))
+    
+
+"""
+TC. 16 Many posts a comment in the Nestor's message in the Health topic
+"""
+
+import requests, json
+mary_access_token = mary['access_token']
+feedback_URL = 'http://127.0.0.1:8000/v1/feedback/'
+health_posts_URL = 'http://127.0.0.1:8000/v1/messagebytopic/H/'
+headers = {'Authorization': 'Bearer '+str(mary_access_token)}
+
+nestor_post_identifier = 0
+post_count = 0
+posts_in_health = requests.get(health_posts_URL, headers = headers)
+for request in posts_in_health.json():
+    if request['username'] == 'nester':
+        nestor_post_identifier = request['post_identifier']
+        post_count = post_count + 1
+if post_count != 1:
+    print('There are more than 1 posts by Nestor or none at all. Test failed. Re-check previous tests')
+else:
+    
+    dataset = {
+            "post_identifier": nestor_post_identifier,
+            "is_liked": False,
+            "is_disliked": False,
+            "comment": "Mary's comment on Nestor's message in Health topic"
+        }
+
+    submit_request = requests.post(feedback_URL, headers = headers, json= dataset)
+    print(submit_request.json())
 
 
+"""
+TC 17. Mary dislikes Nester's message in the Health topic after the end of post
+expiration time. This should fail.
+"""
 
+import requests, json, time
+mary_access_token = mary['access_token']
+feedback_URL = 'http://127.0.0.1:8000/v1/feedback/'
+health_posts_URL = 'http://127.0.0.1:8000/v1/messagebytopic/H/'
+headers = {'Authorization': 'Bearer '+str(mary_access_token)}
+
+nester_post_identifier = 0
+post_count = 0
+posts_in_health = requests.get(health_posts_URL, headers = headers)
+for request in posts_in_health.json():
+    if request['username'] == 'nester':
+        nester_post_identifier = request['post_identifier']
+        post_count = post_count + 1
+if post_count != 1:
+    print('There are more than 1 posts by Nester or none at all. Test failed. Re-check previous tests')
+else:
+    
+    dataset = {
+            "post_identifier": nester_post_identifier,
+            "is_liked": False,
+            "is_disliked": True,
+            "comment": ""
+        }
+    time.sleep(3) #Adding 3 seconds delay. Nester's post expiry was set to 1 second in last test
+    submit_request = requests.post(feedback_URL, headers = headers, json= dataset)
+    print(submit_request.json())
