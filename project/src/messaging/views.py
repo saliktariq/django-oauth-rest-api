@@ -147,20 +147,6 @@ class FeedbackViewset(viewsets.ModelViewSet):
         serializer = FeedbackSerializer(new_feedback)
         return Response(serializer.data)
 
-class SearchByTopicViewset(viewsets.ModelViewSet):
-    serializer_class = TopicsSerializer
-
-    def get_queryset(self):
-        messages = Topics.objects.all()
-        return messages
-
-
-    def retrieve(self, request, *args, **kwargs): 
-        parameters = kwargs
-        search = parameters['pk'].upper()
-        message = Topics.objects.filter(topic_name= search).values("messages__post_identifier","messages__title","messages__message","messages__creation_timestamp","messages__expiration_timestamp","messages__username","messages__likes","messages__dislikes","messages__total_interactions").order_by("-messages__total_interactions")
-        return Response(message)
-
 
 class MessagesSortedByInteractionViewSet(viewsets.ModelViewSet):
     serializer_class = MessagesSerializer

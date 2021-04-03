@@ -82,41 +82,43 @@ COMMENT OUT THE FOLLOWING CODE FIRST FIRST EXECUTION
 
 """
 
-# olga = registerNewUser("olga", "olga123", "Olga", "Kiev")
-# nick = registerNewUser("nick", "nick123", "Nick", "English")
-# mary = registerNewUser("mary", "mary123", "Mary", "Johns")
-# nester = registerNewUser("nester", "nester123", "Nester", "Smith")
+print('\n\n\nTC 1. Olga, Nick, Mary and Nestor register and are ready to access the Piazza API.\n\n\n')
 
-# print('--------------------------------------------')
-# print("This Olga's registered credentials response")
-# print(olga)
-# print('--------------------------------------------')
+olga = registerNewUser("olga", "olga123", "Olga", "Kiev")
+nick = registerNewUser("nick", "nick123", "Nick", "English")
+mary = registerNewUser("mary", "mary123", "Mary", "Johns")
+nester = registerNewUser("nester", "nester123", "Nester", "Smith")
 
-
-# print('--------------------------------------------')
-# print("This Nick's registered credentials response")
-# print(nick)
-# print('--------------------------------------------')
+print('--------------------------------------------')
+print("This Olga's registered credentials response")
+print(olga)
+print('--------------------------------------------')
 
 
-# print('--------------------------------------------')
-# print("This Mary's registered credentials response")
-# print(mary)
-# print('--------------------------------------------')
+print('--------------------------------------------')
+print("This Nick's registered credentials response")
+print(nick)
+print('--------------------------------------------')
 
-# print('--------------------------------------------')
-# print("This Nester's registered credentials response")
-# print(nester)
-# print('--------------------------------------------')
+
+print('--------------------------------------------')
+print("This Mary's registered credentials response")
+print(mary)
+print('--------------------------------------------')
+
+print('--------------------------------------------')
+print("This Nester's registered credentials response")
+print(nester)
+print('--------------------------------------------')
 
 
 """
 TC 2. Olga, Nick, Mary and Nestor use the oAuth v2 authorisation service to register and get their tokens.
 
 """
-
-# print('Note: Olga, Nick, Mary and Nestor are already registered using oAuth v2 authorisation service in TC1')
-# print('In this test, I will demonstrate, how the above registered users request Tokens using oAuth v2 service')
+print('\n\n\nTC 2. Olga, Nick, Mary and Nestor use the oAuth v2 authorisation service to register and get their tokens.\n\n\n')
+print('Note: Olga, Nick, Mary and Nestor are already registered using oAuth v2 authorisation service in TC1')
+print('In this test, I will demonstrate, how the above registered users request Tokens using oAuth v2 service')
 
 
 olga = requestNewToken("olga", "olga123")
@@ -125,39 +127,40 @@ mary = requestNewToken("mary", "mary123")
 nester = requestNewToken("nester", "nester123")
 
 
-# print('--------------------------------------------')
-# print("This Olga's new Token response")
-# print(olga)
-# print('--------------------------------------------')
+print('--------------------------------------------')
+print("This Olga's new Token response")
+print(olga)
+print('--------------------------------------------')
 
 
-# print('--------------------------------------------')
-# print("This Nick's new Token response")
-# print(nick)
-# print('--------------------------------------------')
+print('--------------------------------------------')
+print("This Nick's new Token response")
+print(nick)
+print('--------------------------------------------')
 
 
-# print('--------------------------------------------')
-# print("This Mary's new Token response")
-# print(mary)
-# print('--------------------------------------------')
+print('--------------------------------------------')
+print("This Mary's new Token response")
+print(mary)
+print('--------------------------------------------')
 
-# print('--------------------------------------------')
-# print("This Nester's new Token response")
-# print(nester)
-# print('--------------------------------------------')
+print('--------------------------------------------')
+print("This Nester's new Token response")
+print(nester)
+print('--------------------------------------------')
 
 
 """
 TC 3. Olga makes a call to the API without using her token. This call should be
 unsuccessful as the user is unauthorised
 """
+print('\n\n\nTC 3. Olga makes a call to the API without using her token. This call should be unsuccessful as the user is unauthorised\n\n\n')
 
-# import requests, json
-# message_URL = 'http://127.0.0.1:8000/v1/message/'
+import requests, json
+message_URL = 'http://127.0.0.1:8000/v1/message/'
 
-# olga_request = requests.get(message_URL)
-# print(olga_request.json())
+olga_request = requests.get(message_URL)
+print(olga_request.json())
 
 """
 IMPORTANT: In order to satisfy referential integrity constraints, Many-to-Many
@@ -170,42 +173,44 @@ COMMENT OUT THE FOLLOWING CODE FIRST FIRST EXECUTION
 """
 
 
-# access_token = olga['access_token']
-# message_URL = 'http://127.0.0.1:8000/v1/topic/'
-# headers = {'Authorization': 'Bearer '+str(access_token)}
-# dataset = {
-#                     "topic_name": "P"
-#             }
-# print("Making call to post topic Politics denoted by P")
-# submit_topic = requests.post(message_URL, headers = headers, data= dataset)
-# print(submit_topic.json())
+access_token = olga['access_token']
+message_URL = 'http://127.0.0.1:8000/v1/topic/'
+headers = {'Authorization': 'Bearer '+str(access_token)}
+dataset = {
+                    "topic_name": "P"
+            }
+print("Making call to post topic Politics denoted by P")
+submit_topic = requests.post(message_URL, headers = headers, data= dataset)
+print(submit_topic.json())
 
-# dataset = {
-#                     "topic_name": "H"
-#             }
-# print("Making call to post topic Health denoted by H")
-# submit_topic = requests.post(message_URL, headers = headers, data= dataset)
-# print(submit_topic.json())
+dataset = {
+                    "topic_name": "H"
+            }
+print("Making call to post topic Health denoted by H")
+submit_topic = requests.post(message_URL, headers = headers, data= dataset)
+print(submit_topic.json())
 
-# dataset = {
-#                     "topic_name": "S"
-#             }
-# print("Making call to post topic Sports denoted by S")
-# submit_topic = requests.post(message_URL, headers = headers, data= dataset)
-# print(submit_topic.json())
+dataset = {
+                    "topic_name": "S"
+            }
+print("Making call to post topic Sports denoted by S")
+submit_topic = requests.post(message_URL, headers = headers, data= dataset)
+print(submit_topic.json())
 
-# dataset = {
-#                     "topic_name": "T"
-#             }
-# print("Making call to post topic Technology denoted by T")
-# submit_topic = requests.post(message_URL, headers = headers, data= dataset)
-# print(submit_topic.json())
+dataset = {
+                    "topic_name": "T"
+            }
+print("Making call to post topic Technology denoted by T")
+submit_topic = requests.post(message_URL, headers = headers, data= dataset)
+print(submit_topic.json())
 
 """
 TC 4. Olga posts a message in the Tech topic with an expiration time(eg. 5 minutes)
 using her token. After the end of the expiration time, the message will not
 accept any further user interactions (likes, dislikes or comments)
 """
+
+print('\n\n\nTC 4. Olga posts a message in the Tech topic with an expiration time(eg. 5 minutes) using her token. After the end of the expiration time, the message will not accept any further user interactions (likes, dislikes or comments)\n\n\n')
 
 import requests, json
 message_URL = 'http://127.0.0.1:8000/v1/message/'
@@ -231,6 +236,7 @@ print(olga_request_to_post.json())
 """
 TC 5. Nick posts a message in the Tech topic with an expiration time using his token
 """
+print('\n\n\nTC 5. Nick posts a message in the Tech topic with an expiration time using his token\n\n\n')
 
 import requests, json
 message_URL = 'http://127.0.0.1:8000/v1/message/'
@@ -256,6 +262,7 @@ print(nick_request_to_post.json())
 """
 TC 6. Mary posts a message in the Tech topic with an expiration time using his token
 """
+print('\n\n\nTC 6. Mary posts a message in the Tech topic with an expiration time using his token\n\n\n')
 
 import requests, json
 message_URL = 'http://127.0.0.1:8000/v1/message/'
@@ -283,6 +290,7 @@ print(mary_request_to_post.json())
 TC. 7 Nick and Olga browse all the available posts in the Tech topic, there should
 be three posts available with zero likes and without any comments
 """
+print('\n\n\nTC. 7 Nick and Olga browse all the available posts in the Tech topic, there should be three posts available with zero likes and without any comments\n\n\n')
 
 import requests, json
 tech_posts_URL = 'http://127.0.0.1:8000/v1/messagebytopic/T/'
@@ -328,6 +336,7 @@ for request in olga_request.json():
 """
 TC 8. Nick and Olga "likes" Mary's post in the Tech topic
 """
+print('\n\n\nTC 8. Nick and Olga "likes" Mary's post in the Tech topic\n\n\n')
 
 import requests, json
 access_token = nick['access_token']
@@ -376,6 +385,7 @@ else:
 """
 TC 9. Nestor "likes" Nick's post and "dislikes" Mary's post in Tech topic.
 """
+print('\n\n\nTC 9. Nestor "likes" Nick's post and "dislikes" Mary's post in Tech topic.\n\n\n')
 
 import requests, json
 access_token = nester['access_token']
@@ -435,6 +445,7 @@ TC 10. Nick browse all the available posts in the Tech topic at this stage,
 he can see the number of likes and dislikes for each post. Mary has 2 likes and
 1 dislike and Nick has 1 like. There are no comments made yet.
 """
+print('\n\n\nTC 10. Nick browse all the available posts in the Tech topic at this stage, he can see the number of likes and dislikes for each post. Mary has 2 likes and 1 dislike and Nick has 1 like. There are no comments made yet.\n\n\n')
 
 import requests, json
 tech_posts_URL = 'http://127.0.0.1:8000/v1/messagebytopic/T/'
@@ -463,6 +474,7 @@ for request in nick_request.json():
 TC 11. Mary likes her post in the Tech topic. This call should be unsuccessful,
 as in Piazza a post owner cannot like their own message.
 """
+print('\n\n\nTC 11. Mary likes her post in the Tech topic. This call should be unsuccessful, as in Piazza a post owner cannot like their own message.\n\n\n')
 
 import requests, json
 access_token = mary['access_token']
@@ -496,7 +508,9 @@ else:
 TC 12. Nick and Olga comment for Mary's post in the Tech topic in a round-robin
 fashion(one after another adding atleast 2 comments each)
 """
+print('\n\n\nTC 12. Nick and Olga comment for Mary\'s post in the Tech topic in a round-robin fashion(one after another adding atleast 2 comments each)\n\n\n')
 
+print('TC 12. Nick and Olga comment for Mary\'s post in the Tech topic in a round-robin fashion(one after another adding atleast 2 comments each)\n\n\n')
 import requests, json
 nick_access_token = nick['access_token']
 feedback_URL = 'http://127.0.0.1:8000/v1/feedback/'
@@ -570,6 +584,8 @@ TC 13. Nick browse all the available posts in the Tech topic, at this stage he
 can see the number of likes and dislikes of each post and the comments made
 """
 
+print('\n\n\nTC 13. Nick browse all the available posts in the Tech topic, at this stage he can see the number of likes and dislikes of each post and the comments made\n\n\n')
+
 import requests, json
 tech_posts_URL = 'http://127.0.0.1:8000/v1/messagebytopic/T/'
 access_token = nick['access_token']
@@ -598,6 +614,8 @@ for request in nick_request.json():
 TC 14. Nester posts a message in the Health topic with an expiration time using her token
 """
 
+print('\n\n\nTC 14. Nester posts a message in the Health topic with an expiration time using her token\n\n\n')
+
 import requests, json
 message_URL = 'http://127.0.0.1:8000/v1/message/'
 access_token = nester['access_token']
@@ -625,6 +643,8 @@ TC. 15 Mary browse all the available posts in the Health topic, at this stage
 she can see only Nestor's post'
 """
 
+print('\n\n\nTC. 15 Mary browse all the available posts in the Health topic, at this stage she can see only Nestor\'s post\n\n\n')
+
 import requests, json
 health_posts_URL = 'http://127.0.0.1:8000/v1/messagebytopic/H/'
 access_token = mary['access_token']
@@ -651,6 +671,8 @@ for request in marys_request.json():
 """
 TC. 16 Many posts a comment in the Nestor's message in the Health topic
 """
+
+print('\n\n\nTC. 16 Many posts a comment in the Nestor\'s message in the Health topic\n\n\n')
 
 import requests, json
 mary_access_token = mary['access_token']
@@ -685,6 +707,8 @@ TC 17. Mary dislikes Nester's message in the Health topic after the end of post
 expiration time. This should fail.
 """
 
+print('\n\n\nTC 17. Mary dislikes Nester\'s message in the Health topic after the end of post expiration time. This should fail.\n\n\n')
+
 import requests, json, time
 mary_access_token = mary['access_token']
 feedback_URL = 'http://127.0.0.1:8000/v1/feedback/'
@@ -711,3 +735,99 @@ else:
     time.sleep(3) #Adding 3 seconds delay. Nester's post expiry was set to 1 second in last test
     submit_request = requests.post(feedback_URL, headers = headers, json= dataset)
     print(submit_request.json())
+    
+"""
+TC 18. Nestor browses all the messages in the Health topic. There should be only post(his own)
+with one comment (Mary's)
+"""
+
+print("\n\n\nTC 18. Nestor browses all the messages in the Health topic. There should be only post(his own) with one comment (Mary's)\n\n\n")
+
+    
+import requests, json
+health_posts_URL = 'http://127.0.0.1:8000/v1/messagebytopic/H/'
+access_token = nester['access_token']
+headers = {'Authorization': 'Bearer '+str(access_token)}
+nester_request = requests.get(health_posts_URL, headers = headers)
+
+print('----------FULL DATASET RECEIVED--------------------')
+print(nester_request.json())
+print('---------------------------------------------------')
+post_number = 0
+for request in nester_request.json():
+    post_number = post_number + 1
+    print('Post number : ' + str(post_number))
+    print('Post by : ' + str(request['username']))
+    print('Topic : ' + str(request['topic'][0]['topic_name']))
+    print('Title : ' + str(request['title']))
+    print('Message : ' + str(request['message']))
+    print('Likes : ' + str(request['likes']))
+    print('Dislikes : ' + str(request['dislikes']))
+    for comment in request['feedbacks']:
+        print('Comment: ' + str(comment['comment']))
+        print('Commented by: '+ str(comment['username']))
+        
+"""
+TC 19. Nick browses all the expired messages in Sport topic. These should be empty
+"""
+
+print('\n\n\nTC 19. Nick browses all the expired messages in Sport topic. These should be empty\n\n\n')
+
+import requests, json
+sports_posts_URL = 'http://127.0.0.1:8000/v1/expiredmessagebytopic/S/'
+access_token = nick['access_token']
+headers = {'Authorization': 'Bearer '+str(access_token)}
+
+nick_request = requests.get(sports_posts_URL, headers = headers)
+
+if ("post_identifier" not in nick_request.json()):
+    print("******No records found******")
+else:
+    
+
+    print('----------FULL DATASET RECEIVED--------------------')
+    print(nick_request.json())
+    print('---------------------------------------------------')
+    post_number = 0
+    for request in nick_request.json():
+        post_number = post_number + 1
+        print('Post number : ' + str(post_number))
+        print('Post by : ' + str(request['username']))
+        print('Topic : ' + str(request['topic'][0]['topic_name']))
+        print('Title : ' + str(request['title']))
+        print('Message : ' + str(request['message']))
+        print('Likes : ' + str(request['likes']))
+        print('Dislikes : ' + str(request['dislikes']))
+        for comment in request['feedbacks']:
+            print('Comment: ' + str(comment['comment']))
+            print('Commented by: '+ str(comment['username']))
+            
+"""
+TC 20. Nester queries for an active post having the hightest interest 
+(maximum sum of likes and dislikes) in the Tech topic. This should be Mary's post.
+"""
+
+print('\n\n\nTC 20. Nester queries for an active post having the hightest interest (maximum sum of likes and dislikes) in the Tech topic. This should be Mary\'s post.\n\n\n')
+
+import requests, json
+tech_posts_URL = 'http://127.0.0.1:8000/v1/messagebytopic/T/'
+access_token = nester['access_token']
+headers = {'Authorization': 'Bearer '+str(access_token)}
+
+nester_request = requests.get(tech_posts_URL, headers = headers)
+
+#Kindly note, I have set up most active post as TOTAL NUMBER OF INTERACTIONS instead of just LIKES + DISLIKES 
+#as I believe that would give more accurate measure of 'activeness'. This can simple by changed in messaging/views.py
+#I will add more details about that in my project report.
+
+print('----------TOP POST-------------------')
+print(nester_request.json()[0])
+print('---------------------------------------------------')
+
+print('Post by : ' + str(nester_request.json()[0]['username']))
+print('Topic : ' + str(nester_request.json()[0]['topic'][0]['topic_name']))
+print('Title : ' + str(nester_request.json()[0]['title']))
+print('Message : ' + str(nester_request.json()[0]['message']))
+print('Likes : ' + str(nester_request.json()[0]['likes']))
+print('Dislikes : ' + str(nester_request.json()[0]['dislikes']))
+print('Comments : ' + str(nester_request.json()[0]['feedbacks']))
