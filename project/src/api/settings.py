@@ -25,7 +25,7 @@ SECRET_KEY = 'w6y#$13fmq=&)m3s&o^ct-b81=x)ss#@qo%b*$5lxbkzzp#r%4'
 # SECURITY WARNING: don't run with debug turned on in production!
 DEBUG = True
 
-ALLOWED_HOSTS = ['127.0.0.1']
+ALLOWED_HOSTS = ['127.0.0.1'] #change this to production server IP
 
 
 # Application definition
@@ -39,14 +39,14 @@ INSTALLED_APPS = [
     'django.contrib.staticfiles',
     'oauth2_provider', # The OAuth2
     'rest_framework', # The REST API
-    'users',
-    'messaging',
+    'users', #User app for creating user accounts
+    'messaging', #Piazza backend app to store messages and feedback
 ]
 
 MIDDLEWARE = [
     'django.middleware.security.SecurityMiddleware',
     'django.contrib.sessions.middleware.SessionMiddleware',
-    'oauth2_provider.middleware.OAuth2TokenMiddleware',
+    'oauth2_provider.middleware.OAuth2TokenMiddleware', #forces resources to be fetched through oAuth with token
     'django.middleware.common.CommonMiddleware',
     'django.middleware.csrf.CsrfViewMiddleware',
     'django.contrib.auth.middleware.AuthenticationMiddleware',
@@ -54,19 +54,20 @@ MIDDLEWARE = [
     'django.middleware.clickjacking.XFrameOptionsMiddleware',
 ]
 
+#Adding rest framework to support REST authentication process
 REST_FRAMEWORK = {
     'DEFAULT_AUTHENTICATION_CLASSES': (
         'oauth2_provider.contrib.rest_framework.OAuth2Authentication',
         'rest_framework.authentication.SessionAuthentication',
     ),
     'DEFAULT_PERMISSION_CLASSES': (
-        'rest_framework.permissions.IsAuthenticated',
+        'rest_framework.permissions.IsAuthenticated', #only serve resources if the user is authenticated
     ),
 }
 
 AUTHENTICATION_BACKENDS = (
-    'django.contrib.auth.backends.ModelBackend',
-    'oauth2_provider.backends.OAuth2Backend',
+    'django.contrib.auth.backends.ModelBackend', 
+    'oauth2_provider.backends.OAuth2Backend', #specifying oAuth2 as authentication backend
 )
 ROOT_URLCONF = 'api.urls'
 

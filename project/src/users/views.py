@@ -6,9 +6,15 @@ import requests
 
 from .serializers import CreateUserSerializer
 
+"""
+Kindly Note: Most of the code in this file has been used from LAB 4 of Cloud Computing Concepts lectures
+"""
+
+#Application credentials to perform authorization requests
 CLIENT_ID = 'n30SvDyd2FWeEMeEzDlEEqxB5aZrxBoQQt7DnIev'
 CLIENT_SECRET = 'ybw4a3yPk6GbqmqDiTAyQhRArP3jadhW6DL2oLYTdgWMNnZiDsv7anhg0BdJq6WcI3gfvogWTFeflSW3rcI5CBY81ZNhpzSGFiia5eatdvD8bjNV2ZlECFjaomTtquX5'
 
+#Change this IP address to production IP address
 IP_token = 'http://127.0.0.1:8000/o/token/'
 IP_revoke_token = 'http://127.0.0.1:8000/o/revoke_token/'
 
@@ -33,8 +39,8 @@ def register(request):
                               'grant_type': 'password',
                               'username': request.data['username'],
                               'password': request.data['password'],
-                              'first_name': request.data['first_name'],
-                              'last_name': request.data['last_name'],
+                              'first_name': request.data['first_name'], #First name received may be used within application for further information about user.
+                              'last_name': request.data['last_name'], #First name received may be used within application for further information about user.
                               'client_id': CLIENT_ID,
                               'client_secret': CLIENT_SECRET,
                           },

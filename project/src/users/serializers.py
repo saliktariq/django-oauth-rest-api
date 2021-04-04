@@ -11,8 +11,8 @@ class CreateUserSerializer(serializers.ModelSerializer):
     class Meta:
         model = User
 
-
+        #following fields will be added to User object when serializing.
         fields = ('id', 'username', 'password', 'first_name', 'last_name')
         extra_kwargs = {
-            'password': {'write_only': True}
+            'password': {'write_only': True} 
         }
