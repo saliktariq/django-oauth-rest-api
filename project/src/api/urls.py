@@ -16,7 +16,7 @@ Including another URLconf
 from django.contrib import admin
 from django.urls import path, include
 from rest_framework.routers import DefaultRouter
-from messaging.views import MessagesViewset, FeedbackViewset, TopicsViewset, MessagesSortedByInteractionViewSet, SearchMessageByTopic, SearchExpiredMessageByTopic
+from messaging.views import MessagesViewset, FeedbackViewset, TopicsViewset, MessagesSortedByInteractionViewSet, SearchMessageByTopic, SearchExpiredMessageByTopic, SearchMessageByTopicSorted
 from messaging.models import Messages, Feedback, Topics
 
 router = DefaultRouter()
@@ -27,6 +27,7 @@ router.register('feedback', FeedbackViewset, basename = 'Feedback')
 router.register('topic', TopicsViewset, basename = 'Topics')
 router.register('sortedmessages', MessagesSortedByInteractionViewSet, basename = 'SortedMessages')
 router.register('messagebytopic', SearchMessageByTopic, basename = 'MessageByTopic')
+router.register('messagebytopicsorted', SearchMessageByTopicSorted, basename = 'MessageByTopicSorted')
 router.register('expiredmessagebytopic', SearchExpiredMessageByTopic, basename = 'ExpiredMessageByTopic')
 
 

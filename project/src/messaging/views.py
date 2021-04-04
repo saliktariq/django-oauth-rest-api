@@ -155,7 +155,24 @@ class MessagesSortedByInteractionViewSet(viewsets.ModelViewSet):
         messages = Messages.objects.order_by('-total_interactions')
         return messages
 
+class SearchMessageByTopicSorted(viewsets.ModelViewSet):
+    serializer_class = MessagesSerializer
 
+    def get_queryset(self):
+        messages = Messages.objects.all()
+        return messages
+
+
+
+    def retrieve(self, request, *args, **kwargs): 
+        parameters = kwargs
+
+        try:
+            message = Messages.objects.filter(topic__topic_name__icontains = parameters['pk']).order_by('-total_interactions')
+            serializer = MessagesSerializer(message, many=True)
+            return Response(serializer.data)
+        except ObjectDoesNotExist:
+            raise Http404 
 
 class SearchMessageByTopic(viewsets.ModelViewSet):
     serializer_class = MessagesSerializer
@@ -170,7 +187,7 @@ class SearchMessageByTopic(viewsets.ModelViewSet):
         parameters = kwargs
 
         try:
-            message = Messages.objects.filter(topic__topic_name__icontains = parameters['pk']).order_by('-total_interactions')
+            message = Messages.objects.filter(topic__topic_name__icontains = parameters['pk'])
             serializer = MessagesSerializer(message, many=True)
             return Response(serializer.data)
         except ObjectDoesNotExist:

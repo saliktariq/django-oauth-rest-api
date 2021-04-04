@@ -669,10 +669,10 @@ for request in marys_request.json():
     
 
 """
-TC. 16 Many posts a comment in the Nestor's message in the Health topic
+TC. 16 Mary posts a comment in the Nestor's message in the Health topic
 """
 
-print('\n\n\nTC. 16 Many posts a comment in the Nestor\'s message in the Health topic\n\n\n')
+print('\n\n\nTC. 16 Mary posts a comment in the Nestor\'s message in the Health topic\n\n\n')
 
 import requests
 mary_access_token = mary['access_token']
@@ -810,7 +810,7 @@ TC 20. Nester queries for an active post having the hightest interest
 print('\n\n\nTC 20. Nester queries for an active post having the hightest interest (maximum sum of likes and dislikes) in the Tech topic. This should be Mary\'s post.\n\n\n')
 
 import requests
-tech_posts_URL = 'http://127.0.0.1:8000/v1/messagebytopic/T/'
+tech_posts_URL = 'http://127.0.0.1:8000/v1/messagebytopicsorted/T/'
 access_token = nester['access_token']
 headers = {'Authorization': 'Bearer '+str(access_token)}
 
