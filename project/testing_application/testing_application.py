@@ -9,7 +9,7 @@ TESTS TO CHECK VARIOUS FUNCTIONALITIES OF PIAZZA APPLICATION.
 
 def registerNewUser(username, password, firstname, lastname):
     import requests
-    url = "http://127.0.0.1:8000/authentication/register/"
+    url = "http://10.61.64.150:8000/authentication/register/"
     userObject = {
         'username': username,
         'password': password,
@@ -26,7 +26,7 @@ def registerNewUser(username, password, firstname, lastname):
 
 def requestNewToken(username, password):
     import requests
-    url = "http://127.0.0.1:8000/authentication/token/"
+    url = "http://10.61.64.150:8000/authentication/token/"
     requestObject = {
         'username': username,
         'password': password,
@@ -41,7 +41,7 @@ def requestNewToken(username, password):
         
 def refreshToken(rToken):
     import requests
-    url = "http://127.0.0.1:8000/authentication/token/refresh/"
+    url = "http://10.61.64.150:8000/authentication/token/refresh/"
     requestObject = {
         'refresh_token': rToken
         }
@@ -56,7 +56,7 @@ def refreshToken(rToken):
          
 def revokeToken(token):
     import requests
-    url = "http://127.0.0.1:8000/authentication/token/revoke/"
+    url = "http://10.61.64.150:8000/authentication/token/revoke/"
     requestObject = {
         'token': token
         }
@@ -156,7 +156,7 @@ unsuccessful as the user is unauthorised
 print('\n\n\nTC 3. Olga makes a call to the API without using her token. This call should be unsuccessful as the user is unauthorised\n\n\n')
 
 import requests
-message_URL = 'http://127.0.0.1:8000/v1/message/'
+message_URL = 'http://10.61.64.150:8000/v1/message/'
 
 olga_request = requests.get(message_URL)
 print(olga_request.json())
@@ -173,7 +173,7 @@ COMMENT OUT THE FOLLOWING CODE FIRST FIRST EXECUTION
 
 
 access_token = olga['access_token']
-message_URL = 'http://127.0.0.1:8000/v1/topic/'
+message_URL = 'http://10.61.64.150:8000/v1/topic/'
 headers = {'Authorization': 'Bearer '+str(access_token)}
 dataset = {
                     "topic_name": "P"
@@ -212,7 +212,7 @@ accept any further user interactions (likes, dislikes or comments)
 print('\n\n\nTC 4. Olga posts a message in the Tech topic with an expiration time(eg. 5 minutes) using her token. After the end of the expiration time, the message will not accept any further user interactions (likes, dislikes or comments)\n\n\n')
 
 import requests
-message_URL = 'http://127.0.0.1:8000/v1/message/'
+message_URL = 'http://10.61.64.150:8000/v1/message/'
 access_token = olga['access_token']
 headers = {'Authorization': 'Bearer '+str(access_token)}
 dataset = {
@@ -238,7 +238,7 @@ TC 5. Nick posts a message in the Tech topic with an expiration time using his t
 print('\n\n\nTC 5. Nick posts a message in the Tech topic with an expiration time using his token\n\n\n')
 
 import requests
-message_URL = 'http://127.0.0.1:8000/v1/message/'
+message_URL = 'http://10.61.64.150:8000/v1/message/'
 access_token = nick['access_token']
 headers = {'Authorization': 'Bearer '+str(access_token)}
 dataset = {
@@ -264,7 +264,7 @@ TC 6. Mary posts a message in the Tech topic with an expiration time using his t
 print('\n\n\nTC 6. Mary posts a message in the Tech topic with an expiration time using his token\n\n\n')
 
 import requests
-message_URL = 'http://127.0.0.1:8000/v1/message/'
+message_URL = 'http://10.61.64.150:8000/v1/message/'
 access_token = mary['access_token']
 headers = {'Authorization': 'Bearer '+str(access_token)}
 dataset = {
@@ -292,7 +292,7 @@ be three posts available with zero likes and without any comments
 print('\n\n\nTC. 7 Nick and Olga browse all the available posts in the Tech topic, there should be three posts available with zero likes and without any comments\n\n\n')
 
 import requests
-tech_posts_URL = 'http://127.0.0.1:8000/v1/messagebytopic/T/'
+tech_posts_URL = 'http://10.61.64.150:8000/v1/messagebytopic/T/'
 access_token = nick['access_token']
 headers = {'Authorization': 'Bearer '+str(access_token)}
 
@@ -339,8 +339,8 @@ print('\n\n\nTC 8. Nick and Olga "likes" Mary\'s post in the Tech topic\n\n\n')
 
 import requests
 access_token = nick['access_token']
-feedback_URL = 'http://127.0.0.1:8000/v1/feedback/'
-tech_posts_URL = 'http://127.0.0.1:8000/v1/messagebytopic/T/'
+feedback_URL = 'http://10.61.64.150:8000/v1/feedback/'
+tech_posts_URL = 'http://10.61.64.150:8000/v1/messagebytopic/T/'
 headers = {'Authorization': 'Bearer '+str(access_token)}
 
 marys_post_identifier = 0
@@ -388,8 +388,8 @@ print('\n\n\nTC 9. Nestor "likes" Nick\'s post and "dislikes" Mary\'s post in Te
 
 import requests
 access_token = nester['access_token']
-feedback_URL = 'http://127.0.0.1:8000/v1/feedback/'
-tech_posts_URL = 'http://127.0.0.1:8000/v1/messagebytopic/T/'
+feedback_URL = 'http://10.61.64.150:8000/v1/feedback/'
+tech_posts_URL = 'http://10.61.64.150:8000/v1/messagebytopic/T/'
 headers = {'Authorization': 'Bearer '+str(access_token)}
 
 nicks_post_identifier = 0
@@ -447,7 +447,7 @@ he can see the number of likes and dislikes for each post. Mary has 2 likes and
 print('\n\n\nTC 10. Nick browse all the available posts in the Tech topic at this stage, he can see the number of likes and dislikes for each post. Mary has 2 likes and 1 dislike and Nick has 1 like. There are no comments made yet.\n\n\n')
 
 import requests
-tech_posts_URL = 'http://127.0.0.1:8000/v1/messagebytopic/T/'
+tech_posts_URL = 'http://10.61.64.150:8000/v1/messagebytopic/T/'
 access_token = nick['access_token']
 headers = {'Authorization': 'Bearer '+str(access_token)}
 
@@ -477,8 +477,8 @@ print('\n\n\nTC 11. Mary likes her post in the Tech topic. This call should be u
 
 import requests
 access_token = mary['access_token']
-feedback_URL = 'http://127.0.0.1:8000/v1/feedback/'
-tech_posts_URL = 'http://127.0.0.1:8000/v1/messagebytopic/T/'
+feedback_URL = 'http://10.61.64.150:8000/v1/feedback/'
+tech_posts_URL = 'http://10.61.64.150:8000/v1/messagebytopic/T/'
 headers = {'Authorization': 'Bearer '+str(access_token)}
 
 mary_post_identifier = 0
@@ -512,8 +512,8 @@ print('\n\n\nTC 12. Nick and Olga comment for Mary\'s post in the Tech topic in 
 print('TC 12. Nick and Olga comment for Mary\'s post in the Tech topic in a round-robin fashion(one after another adding atleast 2 comments each)\n\n\n')
 import requests
 nick_access_token = nick['access_token']
-feedback_URL = 'http://127.0.0.1:8000/v1/feedback/'
-tech_posts_URL = 'http://127.0.0.1:8000/v1/messagebytopic/T/'
+feedback_URL = 'http://10.61.64.150:8000/v1/feedback/'
+tech_posts_URL = 'http://10.61.64.150:8000/v1/messagebytopic/T/'
 headers = {'Authorization': 'Bearer '+str(nick_access_token)}
 
 marys_post_identifier = 0
@@ -586,7 +586,7 @@ can see the number of likes and dislikes of each post and the comments made
 print('\n\n\nTC 13. Nick browse all the available posts in the Tech topic, at this stage he can see the number of likes and dislikes of each post and the comments made\n\n\n')
 
 import requests
-tech_posts_URL = 'http://127.0.0.1:8000/v1/messagebytopic/T/'
+tech_posts_URL = 'http://10.61.64.150:8000/v1/messagebytopic/T/'
 access_token = nick['access_token']
 headers = {'Authorization': 'Bearer '+str(access_token)}
 
@@ -616,7 +616,7 @@ TC 14. Nester posts a message in the Health topic with an expiration time using 
 print('\n\n\nTC 14. Nester posts a message in the Health topic with an expiration time using her token\n\n\n')
 
 import requests
-message_URL = 'http://127.0.0.1:8000/v1/message/'
+message_URL = 'http://10.61.64.150:8000/v1/message/'
 access_token = nester['access_token']
 headers = {'Authorization': 'Bearer '+str(access_token)}
 dataset = {
@@ -645,7 +645,7 @@ she can see only Nestor's post'
 print('\n\n\nTC. 15 Mary browse all the available posts in the Health topic, at this stage she can see only Nestor\'s post\n\n\n')
 
 import requests
-health_posts_URL = 'http://127.0.0.1:8000/v1/messagebytopic/H/'
+health_posts_URL = 'http://10.61.64.150:8000/v1/messagebytopic/H/'
 access_token = mary['access_token']
 headers = {'Authorization': 'Bearer '+str(access_token)}
 
@@ -675,8 +675,8 @@ print('\n\n\nTC. 16 Mary posts a comment in the Nestor\'s message in the Health 
 
 import requests
 mary_access_token = mary['access_token']
-feedback_URL = 'http://127.0.0.1:8000/v1/feedback/'
-health_posts_URL = 'http://127.0.0.1:8000/v1/messagebytopic/H/'
+feedback_URL = 'http://10.61.64.150:8000/v1/feedback/'
+health_posts_URL = 'http://10.61.64.150:8000/v1/messagebytopic/H/'
 headers = {'Authorization': 'Bearer '+str(mary_access_token)}
 
 nestor_post_identifier = 0
@@ -710,8 +710,8 @@ print('\n\n\nTC 17. Mary dislikes Nester\'s message in the Health topic after th
 
 import requests, time
 mary_access_token = mary['access_token']
-feedback_URL = 'http://127.0.0.1:8000/v1/feedback/'
-health_posts_URL = 'http://127.0.0.1:8000/v1/messagebytopic/H/'
+feedback_URL = 'http://10.61.64.150:8000/v1/feedback/'
+health_posts_URL = 'http://10.61.64.150:8000/v1/messagebytopic/H/'
 headers = {'Authorization': 'Bearer '+str(mary_access_token)}
 
 nester_post_identifier = 0
@@ -744,7 +744,7 @@ print("\n\n\nTC 18. Nestor browses all the messages in the Health topic. There s
 
     
 import requests
-health_posts_URL = 'http://127.0.0.1:8000/v1/messagebytopic/H/'
+health_posts_URL = 'http://10.61.64.150:8000/v1/messagebytopic/H/'
 access_token = nester['access_token']
 headers = {'Authorization': 'Bearer '+str(access_token)}
 nester_request = requests.get(health_posts_URL, headers = headers)
@@ -773,7 +773,7 @@ TC 19. Nick browses all the expired messages in Sport topic. These should be emp
 print('\n\n\nTC 19. Nick browses all the expired messages in Sport topic. These should be empty\n\n\n')
 
 import requests
-sports_posts_URL = 'http://127.0.0.1:8000/v1/expiredmessagebytopic/S/'
+sports_posts_URL = 'http://10.61.64.150:8000/v1/expiredmessagebytopic/S/'
 access_token = nick['access_token']
 headers = {'Authorization': 'Bearer '+str(access_token)}
 
@@ -809,7 +809,7 @@ TC 20. Nester queries for an active post having the hightest interest
 print('\n\n\nTC 20. Nester queries for an active post having the hightest interest (maximum sum of likes and dislikes) in the Tech topic. This should be Mary\'s post.\n\n\n')
 
 import requests
-tech_posts_URL = 'http://127.0.0.1:8000/v1/messagebytopicsorted/T/'
+tech_posts_URL = 'http://10.61.64.150:8000/v1/messagebytopicsorted/T/'
 access_token = nester['access_token']
 headers = {'Authorization': 'Bearer '+str(access_token)}
 

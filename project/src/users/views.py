@@ -15,8 +15,8 @@ CLIENT_ID = 'n30SvDyd2FWeEMeEzDlEEqxB5aZrxBoQQt7DnIev'
 CLIENT_SECRET = 'ybw4a3yPk6GbqmqDiTAyQhRArP3jadhW6DL2oLYTdgWMNnZiDsv7anhg0BdJq6WcI3gfvogWTFeflSW3rcI5CBY81ZNhpzSGFiia5eatdvD8bjNV2ZlECFjaomTtquX5'
 
 #Change this IP address to production IP address
-IP_token = 'http://127.0.0.1:8000/o/token/'
-IP_revoke_token = 'http://127.0.0.1:8000/o/revoke_token/'
+IP_token = 'http://10.61.64.150:8000/o/token/'
+IP_revoke_token = 'http://10.61.64.150:8000/o/revoke_token/'
 
 
 @api_view(['POST'])
