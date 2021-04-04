@@ -1,8 +1,7 @@
 # -*- coding: utf-8 -*-
 """
-Created on Sat Apr  3 18:57:31 2021
+TESTS TO CHECK VARIOUS FUNCTIONALITIES OF PIAZZA APPLICATION.
 
-@author: Salik
 """
 
 ###################Helper Funcitons###########################################
@@ -816,9 +815,9 @@ headers = {'Authorization': 'Bearer '+str(access_token)}
 
 nester_request = requests.get(tech_posts_URL, headers = headers)
 
-#Kindly note, I have set up most active post as TOTAL NUMBER OF INTERACTIONS instead of just LIKES + DISLIKES 
+#Kindly note, I have set up most active post as TOTAL NUMBER OF INTERACTIONS instead of LIKES + DISLIKES 
 #as I believe that would give more accurate measure of 'activeness'. This can simple by changed in messaging/views.py
-#I will add more details about that in my project report.
+# I am adding more details about that in my project report.
 
 print('----------TOP POST-------------------')
 print(nester_request.json()[0])
